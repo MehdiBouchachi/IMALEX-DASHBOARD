@@ -4,8 +4,6 @@ import styled from "styled-components";
 import {
   HiOutlineHome,
   HiOutlineClipboardDocumentList,
-  HiOutlineUserGroup,
-  HiOutlineBeaker,
   HiOutlineNewspaper,
   HiOutlineIdentification,
   HiOutlineUsers,
@@ -97,7 +95,7 @@ const navGroups = [
   {
     label: "CRM",
     items: [
-      { to: "/clients", label: "Clients", icon: HiOutlineUserGroup },
+      /*  { to: "/clients", label: "Clients", icon: HiOutlineUserGroup }, */
       // Pipeline for requests/briefs with statuses: in_study, in_progress, accepted, complete
       {
         to: "/briefs",
@@ -107,13 +105,13 @@ const navGroups = [
       },
     ],
   },
-  {
+  /*  {
     label: "R&D",
     items: [
       { to: "/formulations", label: "Formulations", icon: HiOutlineBeaker },
       // If later: { to: "/studies", label: "Studies", icon: HiOutlineBeaker },
     ],
-  },
+  }, */
   {
     label: "Content",
     items: [{ to: "/articles", label: "Articles", icon: HiOutlineNewspaper }],

@@ -1,7 +1,10 @@
 import { format, formatDistanceToNowStrict } from "date-fns";
+import styled from "styled-components";
 import Table from "../../ui/Table";
 import Tag from "../../ui/Tag";
 import Menus from "../../ui/Menus";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 import {
   HiEye,
   HiArrowUpOnSquare,
@@ -14,7 +17,6 @@ import {
   HiPauseCircle,
 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 
 /* ----------------------------- tokens ----------------------------- */
 const statusColor = {
@@ -54,6 +56,16 @@ const phaseMap = {
   },
 };
 
+const STATUS_LABEL = {
+  in_review: "IN REVIEW",
+  draft: "DRAFT",
+  approved: "APPROVED",
+  changes_requested: "CHANGES REQ",
+  unpublished: "UNPUBLISHED",
+  published: "PUBLISHED",
+  archived: "ARCHIVED",
+};
+
 /* ----------------------------- styles ----------------------------- */
 const TitleWrap = styled.div`
   display: grid;
@@ -65,7 +77,7 @@ const TitleWrap = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* clamp to two lines */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
 
@@ -91,7 +103,7 @@ const LifeCell = styled.div`
   }
 
   .line {
-    min-width: 0; /* allow ellipsis */
+    min-width: 0;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -105,7 +117,6 @@ const LifeCell = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   .label .long {
     display: inline;
   }
@@ -116,7 +127,6 @@ const LifeCell = styled.div`
   .date {
     color: var(--color-grey-500);
   }
-
   .rel {
     color: var(--color-grey-500);
   }
@@ -129,14 +139,11 @@ const LifeCell = styled.div`
     flex: 0 0 auto;
   }
 
-  /* First, hide relative time on narrower viewports */
   @media (max-width: 1250px) {
     .rel {
       display: none;
     }
   }
-
-  /* Then shorten the label so it never wraps */
   @media (max-width: 1120px) {
     .label .long {
       display: none;
@@ -145,6 +152,11 @@ const LifeCell = styled.div`
       display: inline;
     }
   }
+`;
+
+const Actions = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 /* -------------------------- helpers -------------------------- */
@@ -161,11 +173,7 @@ function pickLifecycle(article) {
       at: article.unpublishedAt || article.createdAt || null,
     };
   }
-  if (
-    article.status === "in_review" ||
-    article.status === "approved" ||
-    article.status === "changes_requested"
-  ) {
+  if (["in_review", "approved", "changes_requested"].includes(article.status)) {
     return {
       key: "pushed",
       at: article.submittedAt || article.createdAt || null,
@@ -191,19 +199,8 @@ function fmtRel(iso) {
   }
 }
 
-// 2) short, single-line labels (no visual style change)
-const STATUS_LABEL = {
-  in_review: "IN REVIEW",
-  draft: "DRAFT",
-  approved: "APPROVED",
-  changes_requested: "CHANGES REQ", // <- shorter so it never wraps
-  unpublished: "UNPUBLISHED",
-  published: "PUBLISHED",
-  archived: "ARCHIVED",
-};
-
 /* ----------------------------- row ----------------------------- */
-function ArticleRow({ article }) {
+export default function ArticleRow({ article, onDelete }) {
   const navigate = useNavigate();
   const canPublish = article.status !== "published";
   const canUnpublish = article.status === "published";
@@ -225,14 +222,14 @@ function ArticleRow({ article }) {
         </div>
       </TitleWrap>
 
-      {/* Credit (team or author) */}
+      {/* Credit */}
       <div>
         {article.publishCredit === "team"
           ? article.team?.name || "—"
           : article.author?.displayName || "—"}
       </div>
 
-      {/* Workflow status */}
+      {/* Status */}
       <Tag type={statusColor[article.status] || "silver"}>
         {STATUS_LABEL[article.status] ||
           article.status.replace("_", " ").toUpperCase()}
@@ -244,7 +241,7 @@ function ArticleRow({ article }) {
       {/* Team */}
       <div>{article.team?.name || "—"}</div>
 
-      {/* Lifecycle — ghost, single line, theme-safe */}
+      {/* Lifecycle */}
       <LifeCell
         title={
           life.at
@@ -271,52 +268,60 @@ function ArticleRow({ article }) {
         </span>
       </LifeCell>
 
-      {/* Actions */}
-      <Menus.Menu>
-        <Menus.Toggle id={article.id} />
-        <Menus.List id={article.id}>
-          <Menus.Button
-            icon={<HiPencilSquare />}
-            onClick={() => navigate(`/articles/${article.id}/edit`)}
-          >
-            Edit
-          </Menus.Button>
+      {/* Actions (Modal wraps Menus, like CabinRow) */}
+      <Actions>
+        <Modal>
+          <Menus.Menu>
+            <Menus.Toggle id={article.id} />
+            <Menus.List id={article.id}>
+              <Menus.Button
+                icon={<HiPencilSquare />}
+                onClick={() => navigate(`/articles/${article.id}/edit`)}
+              >
+                Edit
+              </Menus.Button>
+              <Menus.Button
+                icon={<HiEye />}
+                onClick={() => navigate(`/articles/${article.id}`)}
+              >
+                See details
+              </Menus.Button>
 
-          <Menus.Button
-            icon={<HiEye />}
-            onClick={() => navigate(`/articles/${article.id}`)}
-          >
-            See details
-          </Menus.Button>
+              {canPublish && (
+                <Menus.Button
+                  icon={<HiArrowUpOnSquare />}
+                  onClick={() => alert("(static) Publish")}
+                >
+                  Publish
+                </Menus.Button>
+              )}
+              {canUnpublish && (
+                <Menus.Button
+                  icon={<HiArrowDownOnSquare />}
+                  onClick={() => alert("(static) Unpublish")}
+                >
+                  Unpublish
+                </Menus.Button>
+              )}
 
-          {canPublish && (
-            <Menus.Button
-              icon={<HiArrowUpOnSquare />}
-              onClick={() => alert("(static) Publish")}
-            >
-              Publish
-            </Menus.Button>
-          )}
+              <Modal.Open opens="delete-article">
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Modal.Open>
+            </Menus.List>
 
-          {canUnpublish && (
-            <Menus.Button
-              icon={<HiArrowDownOnSquare />}
-              onClick={() => alert("(static) Unpublish")}
-            >
-              Unpublish
-            </Menus.Button>
-          )}
-
-          <Menus.Button
-            icon={<HiTrash />}
-            onClick={() => alert(`(static) Delete id=${article.id}`)}
-          >
-            Delete
-          </Menus.Button>
-        </Menus.List>
-      </Menus.Menu>
+            <Modal.Window name="delete-article">
+              <ConfirmDelete
+                resourceName="article"
+                onConfirm={() =>
+                  onDelete
+                    ? onDelete(article.id)
+                    : alert(`(static) Delete id=${article.id}`)
+                }
+              />
+            </Modal.Window>
+          </Menus.Menu>
+        </Modal>
+      </Actions>
     </Table.Row>
   );
 }
-
-export default ArticleRow;

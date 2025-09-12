@@ -25,6 +25,7 @@ import Briefs from "./pages/Briefs";
 import Formulations from "./pages/Formulations";
 import Profiles from "./pages/Profiles";
 import Clients from "./pages/Clients";
+import Brief from "./pages/Brief";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,6 +48,7 @@ function App() {
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="briefs" element={<Briefs />} />
+              <Route path="briefs/:briefId" element={<Brief />} />
               <Route path="bookings/:bookingId" element={<Booking />} />
               <Route path="checkin/:bookingId" element={<Checkin />} />
               <Route path="formulations" element={<Formulations />} />{" "}

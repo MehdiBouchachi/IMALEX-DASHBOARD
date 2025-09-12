@@ -41,6 +41,15 @@ html, body {
 :root {
   
  &, &.light-mode{
+
+  ::selection {
+ background: color-mix(in srgb, var(--color-brand-600) 35%, transparent);
+  color: var(--color-brand-900);                      /* indigo-900 for contrast */
+}
+::-moz-selection {
+  background: color-mix(in srgb, var(--color-brand-600) 35%, transparent);
+  color: var(--color-brand-900);
+}
   /* Grey */
   --color-grey-0: #fff;
   --color-grey-50: #f9fafb;
@@ -88,6 +97,15 @@ html, body {
   --image-opacity: 100%;
   }
   &.dark-mode{
+
+    ::selection {
+ background: color-mix(in srgb, var(--color-brand-600) 30%, transparent);
+  color: var(--color-brand-50);                 /* indigo-50 */
+}
+ ::-moz-selection {
+   background: color-mix(in srgb, var(--color-brand-600) 30%, transparent);
+  color: var(--color-brand-50);
+}
     
   --color-grey-0: #18212f;
   --color-grey-50: #111827;

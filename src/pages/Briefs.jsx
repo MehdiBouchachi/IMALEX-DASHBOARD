@@ -1,8 +1,7 @@
-import CabinTable from "../features/cabins/CabinTable";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
-import AddCabin from "../features/cabins/AddCabin";
-import CabinTablesOperations from "../features/cabins/CabinTablesOperations";
+import BriefTableOperations from "../features/briefs/BriefTableOperations";
+import BriefTable from "../features/briefs/BriefTable";
 
 function Briefs() {
   return (
@@ -12,8 +11,8 @@ function Briefs() {
         {/*         <CabinTablesOperations /> */}
       </Row>
       <Row>
-        {/*  <CabinTable />
-        <AddCabin /> */}
+        <BriefTableOperations />
+        <BriefTable />
       </Row>
     </>
   );

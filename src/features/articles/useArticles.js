@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { fakeArticles } from "./fakeArticles";
-
-const PAGE_SIZE = 10;
+import { PAGE_SIZE } from "../../utils/constants";
 
 function sortArticles(arr, sortBy) {
   const [col, dir = "asc"] = (sortBy || "createdAt-desc").split("-");
@@ -16,29 +15,47 @@ function sortArticles(arr, sortBy) {
   });
 }
 
+function matchQuery(article, q) {
+  if (!q) return true;
+  const hay =
+    [
+      article.title,
+      article.slug,
+      article.status?.replace("_", " "),
+      article.team?.name,
+      article.author?.displayName,
+      ...(article.tags || []),
+    ]
+      .filter(Boolean)
+      .join(" | ")
+      .toLowerCase() || "";
+  return hay.includes(q.toLowerCase());
+}
+
 export function useArticles() {
   const [searchParams] = useSearchParams();
   const status = searchParams.get("status") || "all";
   const sortBy = searchParams.get("sortBy") || "createdAt-desc";
   const page = Number(searchParams.get("page") || 1);
+  const q = searchParams.get("q") || "";
+  const team = searchParams.get("team") || "all";
 
   const { data, count } = useMemo(() => {
     let list = fakeArticles;
 
-    // filter
     if (status !== "all") list = list.filter((a) => a.status === status);
+    if (team !== "all") list = list.filter((a) => a.team?.slug === team);
+    if (q) list = list.filter((a) => matchQuery(a, q));
 
-    // sort
     list = sortArticles(list, sortBy);
 
-    // paginate
     const count = list.length;
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
     const slice = list.slice(from, to);
 
     return { data: slice, count };
-  }, [status, sortBy, page]);
+  }, [status, sortBy, page, q, team]);
 
   return { articles: data, count, isLoading: false };
 }

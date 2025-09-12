@@ -9,9 +9,10 @@ export default function Articles() {
     <>
       <Row type="horizontal">
         <Heading as="h1">All articles</Heading>
-        <ArticleTableOperations />
       </Row>
       <Row>
+        <ArticleTableOperations />
+
         <ArticleTable />
         <AddArticle />
       </Row>

@@ -62,7 +62,7 @@ export default function TagInput({ value = [], onChange }) {
               gap: 6,
             }}
           >
-            <Tag type="brand">{t}</Tag>
+            <Tag type="indigo">{t}</Tag>
             <button
               type="button"
               onClick={() => remove(t)}
