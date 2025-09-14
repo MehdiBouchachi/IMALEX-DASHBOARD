@@ -75,12 +75,23 @@ html, body {
   --color-indigo-700: #4338ca;
 
   --group-a: oklch(0.92 0.09 262); /* indigo */
---group-b: oklch(0.93 0.09 210); /* blue */
---group-c: oklch(0.94 0.08 160); /* teal/green */
---group-d: oklch(0.95 0.08 120); /* lime */
---group-e: oklch(0.95 0.09 60);  /* amber */
---group-f: oklch(0.93 0.10 15);  /* orange/persimmon */
+  --group-b: oklch(0.93 0.09 210); /* blue */
+  --group-c: oklch(0.94 0.08 160); /* teal/green */
+  --group-d: oklch(0.95 0.08 120); /* lime */
+  --group-e: oklch(0.95 0.09 60);  /* amber */
+  --group-f: oklch(0.93 0.10 15);  /* orange/persimmon */
 
+/* ── Roles (flat HEX, not referencing other vars) ── */
+--role-head: #15803d;        /* green-700 vibe */
+--role-reviewer: #a16207;    /* yellow-700 vibe */
+--role-editor: #4338ca;      /* indigo-700 vibe */
+
+/* ── Team tints (flat OKLCH, copied from your palette ranges) ── */
+--team-cosmetics: oklch(0.92 0.09 262);
+--team-animal-nutrition: oklch(0.93 0.09 210);
+--team-biopesticides: oklch(0.94 0.08 160);
+--team-food-supplements: oklch(0.95 0.08 120);
+--team-agri-food: oklch(0.95 0.09 60);
 
   --color-red-100: #fee2e2;
   --color-red-700: #b91c1c;
@@ -137,6 +148,17 @@ html, body {
 --group-e: oklch(0.84 0.12 60);
 --group-f: oklch(0.82 0.13 15);
 
+ /* ── Roles (flat HEX, not referencing other vars) ── */
+--role-head: #15803d;        /* green-700 vibe */
+--role-reviewer: #a16207;    /* yellow-700 vibe */
+--role-editor: #4338ca;      /* indigo-700 vibe */
+
+/* ── Team tints (flat OKLCH, copied from your palette ranges) ── */
+--team-cosmetics: oklch(0.92 0.09 262);
+--team-animal-nutrition: oklch(0.93 0.09 210);
+--team-biopesticides: oklch(0.94 0.08 160);
+--team-food-supplements: oklch(0.95 0.08 120);
+--team-agri-food: oklch(0.95 0.09 60);
 
   --color-red-100: #fee2e2;
   --color-red-700: #b91c1c;

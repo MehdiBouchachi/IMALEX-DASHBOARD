@@ -7,7 +7,7 @@ function Briefs() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">All briefs</Heading>
+        <Heading as="h1">Briefs</Heading>
         {/*         <CabinTablesOperations /> */}
       </Row>
       <Row>

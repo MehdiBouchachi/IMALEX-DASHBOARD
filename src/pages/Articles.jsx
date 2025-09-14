@@ -8,7 +8,7 @@ export default function Articles() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">All articles</Heading>
+        <Heading as="h1">Articles</Heading>
       </Row>
       <Row>
         <ArticleTableOperations />

@@ -1,22 +1,19 @@
-import CabinTable from "../features/cabins/CabinTable";
+import ProfileTable from "../features/profiles/ProfileTable.jsx";
+import ProfileTableOperations from "../features/profiles/ProfileTableOperations.jsx";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
-import AddCabin from "../features/cabins/AddCabin";
-import CabinTablesOperations from "../features/cabins/CabinTablesOperations";
 
-function Profiles() {
+export default function Profiles() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">All Profiles</Heading>
-        {/*         <CabinTablesOperations /> */}
+        <Heading as="h1">Profiles</Heading>
       </Row>
+
       <Row>
-        {/*  <CabinTable />
-        <AddCabin /> */}
+        <ProfileTableOperations />
+        <ProfileTable />
       </Row>
     </>
   );
 }
-
-export default Profiles;
