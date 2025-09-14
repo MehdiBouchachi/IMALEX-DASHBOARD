@@ -735,7 +735,7 @@ export default function ArticleDetail() {
       {/* Bottom-right primary actions */}
       <FooterActions>
         <Button onClick={() => navigate(`/articles/${article.id}/edit`)}>
-          <HiOutlinePencilSquare /> Edit
+          Edit
         </Button>
 
         {canPublish && (
@@ -745,7 +745,7 @@ export default function ArticleDetail() {
               setTimeout(() => setToast(""), 1600);
             }}
           >
-            <HiOutlineArrowUpOnSquare /> Publish
+            Publish
           </Button>
         )}
         {canUnpublish && (
@@ -755,7 +755,7 @@ export default function ArticleDetail() {
               setTimeout(() => setToast(""), 1600);
             }}
           >
-            <HiOutlineArrowDownOnSquare /> Unpublish
+            Unpublish
           </Button>
         )}
 
