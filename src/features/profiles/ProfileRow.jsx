@@ -8,6 +8,7 @@ import Tag from "../../ui/Tag";
 import { HiUser, HiPencilSquare, HiTrash } from "react-icons/hi2";
 import { fakeUsers } from "../../data/fakeUsers";
 import UpdateUserRolesForm from "./UpdateUserRolesForm";
+import { useNavigate } from "react-router-dom";
 
 /* ───────── labels ───────── */
 const TEAM_LABELS = {
@@ -167,7 +168,7 @@ const fmtRel = (iso) => {
 /* ───────── row ───────── */
 export default function ProfileRow({ profile }) {
   const tmap = rolesByTeam(profile);
-
+  const navigate = useNavigate();
   const globalCell = (
     <>
       {hasGlobal(profile, "admin") && <Tag type="green">ADMIN</Tag>}
@@ -241,7 +242,12 @@ export default function ProfileRow({ profile }) {
           <Menus.Menu>
             <Menus.Toggle id={profile.id} />
             <Menus.List id={profile.id}>
-              <Menus.Button icon={<HiUser />}>View</Menus.Button>
+              <Menus.Button
+                icon={<HiUser />}
+                onClick={() => navigate(`/profiles/${profile.id}`)}
+              >
+                View
+              </Menus.Button>
               <Modal.Open opens="edit-roles">
                 <Menus.Button icon={<HiPencilSquare />}>Edit</Menus.Button>
               </Modal.Open>
